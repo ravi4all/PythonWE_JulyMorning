@@ -20,6 +20,21 @@ Shoes | Mobile | Shirt
 
 toSearch = input("Enter your search : ")
 
+filteredData = []
 for data in products:
     if data['category'] == toSearch.lower():
-        print(data)
+        filteredData.append(data)
+        print("Category : {}, Brand : {}, Price : {}".format(data['category'], data['brand'], data['price']))
+
+
+print("""
+Price | Brand
+""")
+
+newFilter = input("Enter your choice : ")
+
+if newFilter == 'brand':
+    brand = input("Enter name of brand : ")
+    for data in filteredData:
+        if data['brand'] == brand:
+            print(data)
