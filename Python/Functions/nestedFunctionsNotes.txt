@@ -1,0 +1,13 @@
+whenever you are assigning a function to variable,
+a = add()
+
+the value which is returned by function will be stored in that variable, suppose add returns some value
+
+print(a)
+value returned by function..
+
+In case when a function returns a nested function then,
+x = add()
+x()
+
+If a function returns multiple values then it means it is returning a tuple
