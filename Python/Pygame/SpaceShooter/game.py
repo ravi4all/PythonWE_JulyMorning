@@ -1,5 +1,6 @@
 import pygame
 import random
+from pygame.locals import  *
 
 pygame.init()
 
@@ -17,11 +18,13 @@ enemyShootSound = pygame.mixer.Sound("sounds/sound_1.wav")
 myShipShootSound = pygame.mixer.Sound("sounds/sound_2.wav")
 bgImage = pygame.image.load("images/background.jpg")
 
+fontPath = "Atarian/SF Atarian System Bold.ttf"
+
 def homeScreen():
-    font = pygame.font.Font("Atarian/SF Atarian System Bold.ttf",100)
+    font = pygame.font.Font(fontPath,100)
     text = font.render("Welcome to Space Shooter", True, white)
 
-    font_2 = pygame.font.Font("Atarian/SF Atarian System Bold.ttf",60)
+    font_2 = pygame.font.Font(fontPath,60)
     text_2 = font_2.render("Press SPACE to start Game",True,white)
 
     while True:
@@ -39,6 +42,11 @@ def homeScreen():
         screen.blit(text_2, (250,250))
 
         pygame.display.update()
+
+def showTimer(seconds):
+    font = pygame.font.Font(fontPath, 30)
+    text = font.render("Time Left: "+str(seconds), True, black)
+    screen.blit(text, (1050,300))
 
 def game():
 
@@ -81,12 +89,18 @@ def game():
     bulletRect.y = myShipY + 15
     moveBullet = 0
 
+    seconds = 15
+    pygame.time.set_timer(USEREVENT, 1000)
+
     while True:
         bulletRect.x = (myShipX + myShipWidth / 2) - 3
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit() # quit pygame
                 quit() # quit python
+
+            elif event.type== USEREVENT:
+                seconds -= 1
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
@@ -100,8 +114,8 @@ def game():
             elif event.type == pygame.KEYUP:
                 moveX = 0
 
-        # screen.fill(white)
-        screen.blit(bgImage, (0, 0))
+        screen.fill(white)
+        #screen.blit(bgImage, (0, 0))
 
         # for i in range(2):
         #     for j in range(int(len(enemyList)/2)):
@@ -141,10 +155,13 @@ def game():
             moveBullet = 0
 
         if enemyBulletRect.y > height:
+            # pygame.time.delay(2000)
             randomEnemy = random.choice(enemyList)
             enemyBulletRect.x = randomEnemy.x + enemyWidth / 2
             enemyBulletRect.y = randomEnemy.bottom - 20
             enemyShootSound.play()
+
+        showTimer(seconds)
 
         pygame.display.update()
 
