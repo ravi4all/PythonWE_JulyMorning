@@ -1,0 +1,3 @@
+This is demo text file
+Python file handling demo
+This file is for read purpose only
